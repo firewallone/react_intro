@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 const Car = (props) => {
   const { brand, model, location, id, image, price, color } = props;
 
   return (
-    <a href={`/details/${id}`}>
+    <Link to={`/details/${id}`}>
       <div className="flex w-full rounded-md border p-2 shadow-sm hover:bg-slate-100">
         <div>
           <img
@@ -18,7 +20,7 @@ const Car = (props) => {
           <h2>{`${color} - ${location} - ${price} CZK`}</h2>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

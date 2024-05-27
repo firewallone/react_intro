@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Car from "./Car";
 import useModelList from "../hooks/useModelList";
+import useCarList from "../hooks/useCarList.jsx";
 
 const brands = ["Skoda", "Opel", "Volkswagen", "Toyota", "Fiat"];
 
@@ -10,19 +11,11 @@ const SearchParams = () => {
   const [model, setModel] = useState("");
   const [models] = useModelList(brand);
 
-  const [cars, setCars] = useState([]);
-
-  useEffect(() => {
-    requestCars();
-  }, []);
-
-  async function requestCars() {
-    const res = await fetch(
-      `https://vse-react-basic.vercel.app/api/cars?location=${location}&brand=${brand}&model=${model}`,
-    );
-    const json = await res.json();
-    setCars(json);
-  }
+  const { cars, requestCars, isLoading } = useCarList({
+    location,
+    brand,
+    model,
+  });
 
   return (
     <div>
@@ -31,7 +24,7 @@ const SearchParams = () => {
           e.preventDefault();
           requestCars();
         }}
-        className="flex flex-col rounded-md bg-lime-300 px-10 py-5 shadow-sm shadow-gray-400"
+        className="flex flex-col rounded-md bg-blue-600 px-10 py-5 shadow-sm shadow-gray-400"
       >
         <label htmlFor="location">Location</label>
         <input
@@ -75,14 +68,16 @@ const SearchParams = () => {
         </select>
         <button className="btn mt-4">Search</button>
       </form>
-      <div>
-        {cars.map((car) => (
+      <div className={isLoading ? "opacity-45" : ""}>
+        {cars?.map((car) => (
           <Car
             key={car.id}
             brand={car.brand}
             model={car.model}
             price={car.price}
             color={car.color}
+            image={car.image}
+            location={car.location}
           />
         ))}
       </div>
