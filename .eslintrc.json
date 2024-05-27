@@ -4,7 +4,8 @@
     "plugin:import/errors", // tento plugin zajišťuje, že se budou kontrolovat chyby při importu
     "plugin:react/recommended", // tento plugin zajišťuje, že se budou kontrolovat chyby v Reactu
     "plugin: jsx-a11y/recommended", // tento plugin zajišťuje, že se budou kontrolovat chyby přístupnosti (a11y) v JSX
-    "prettier" // vzdycky posledni, aby se prettier aplikoval na vsechny pravidla
+    "prettier", // vzdycky posledni, aby se prettier aplikoval na vsechny pravidla
+    "plugin:react-hooks/recommended"
   ],
 
   "plugins": ["react", "jsx-a11y", "import"], // zde se definují použité pluginy
@@ -27,7 +28,7 @@
   },
   "settings": {
     "react": {
-      "version": "detect", // zde se nastavuje verze Reactu pro plugin react (pokud je nastaveno na "detect", tak se verze Reactu detekuje automaticky)
+      "version": "detect"// zde se nastavuje verze Reactu pro plugin react (pokud je nastaveno na "detect", tak se verze Reactu detekuje automaticky)
     },
     "import/resolver": {
       // zde se nastavuje, jak mají být vyhledávány moduly při importu
