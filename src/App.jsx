@@ -13,7 +13,6 @@ const App = () => {
         <h2 className="py-5 text-3xl font-bold tracking-tight text-gray-900">
           First React Car App
         </h2>
-        <CarList />
         <SearchParams />
       </div>
     </div>
