@@ -1,0 +1,28 @@
+// This file is used to configure ESLint
+{
+    // extends tells ESLint to use the rules from eslint:recommended and prettier
+    "extends": ["eslint:recommended", "prettier"],
+    // plugins tells ESLint to use additional plugins
+    "plugins": [],
+    // parse options tells ESLint what version of JavaScript to use
+    "parserOptions": {
+      // ECMAScript version
+      "ecmaVersion": 2022,
+      // source type of the script allow to use ECMAScript modules import/export
+      "sourceType": "module",
+      // ecmaFeatures allows to enable additional language features
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    // env tells ESLint which environments your code is designed to run in
+    "env": {
+      // browser global variables
+      "browser": true,
+      // Node.js global variables and Node.js scoping
+      "node": true,
+      // CommonJS global variables and CommonJS scoping
+      "es6": true
+    }
+  }
+  
