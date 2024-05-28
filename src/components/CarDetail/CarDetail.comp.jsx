@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
+import { Suspense, lazy, useContext, useState } from "react";
 import Carousel from "../Carousel";
 
-import Loader from "../Loader";
-import Modal from "../Modal";
 import { SelectedCarContext } from "../../contexts/SelectedCarContext";
 import { useNavigate } from "react-router-dom";
+const SubmitCarModal = lazy(() => import("../SubmitCarModal"));
 
 const DetailParam = (props) => {
   return (
@@ -24,9 +23,6 @@ const CarDetailComponent = (props) => {
   const [, setSelectedCar] = useContext(SelectedCarContext);
   const navigate = useNavigate();
 
-  if (props.isLoading) {
-    return <Loader />;
-  }
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -49,32 +45,17 @@ const CarDetailComponent = (props) => {
           <DetailParam label="Description" value={props.car.description} />
         </dl>
       </div>
-      {showModal ? (
-        <Modal>
-          <div className="w-full space-y-4">
-            <h1 className="text-xl">
-              Would you like to buy {props.car.brand.name}?
-            </h1>
-            <div className="flex w-full justify-between space-x-2">
-              <button
-                className="btn w-full bg-orange-500"
-                onClick={() => {
-                  setSelectedCar(props.car);
-                  navigate("/");
-                }}
-              >
-                Yes
-              </button>
-              <button
-                className="btn w-full"
-                onClick={() => setShowModal(false)}
-              >
-                No
-              </button>
-            </div>
-          </div>
-        </Modal>
-      ) : null}
+      <Suspense>
+        <SubmitCarModal
+          text={`Are you interested about ${props.car.brand.name} ${props.car.model.name}`}
+          open={showModal}
+          goNext={() => {
+            setSelectedCar(props.car);
+            navigate("/");
+          }}
+          goBack={() => setShowModal(false)}
+        />
+      </Suspense>
     </div>
   );
 };

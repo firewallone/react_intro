@@ -1,14 +1,18 @@
+import { keepPreviousData, useSuspenseQuery } from "@tanstack/react-query";
+import fetchCarList from "../apis/fetchCarList";
 import { classNames } from "../utils";
 import Car from "./Car";
-import Loader from "./Loader";
 
-const CarList = ({ cars, isLoading }) => {
+const CarList = ({ searchParams }) => {
+  const { data: cars } = useSuspenseQuery({
+    queryKey: ["cars", searchParams],
+    queryFn: fetchCarList,
+    placeholderData: keepPreviousData,
+  });
+
   return (
-    <div
-      className={classNames(isLoading ? "opacity-45" : "", "mt-2 grid gap-2")}
-    >
-      {!cars?.length && isLoading && <Loader />}
-      {!cars?.length && !isLoading ? (
+    <div className={classNames("mt-2 grid gap-2")}>
+      {!cars?.length ? (
         <h2>No Results</h2>
       ) : (
         cars?.map((car) => (

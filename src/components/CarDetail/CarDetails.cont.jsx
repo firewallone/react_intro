@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import CarDetailComponent from "./CarDetail.comp";
 import fetchCar from "../../apis/fetchCar";
@@ -8,7 +8,7 @@ import ErrorComponent from "../ErrorComponent";
 const CarDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading } = useSuspenseQuery({
     queryKey: ["car", id],
     queryFn: fetchCar,
   });

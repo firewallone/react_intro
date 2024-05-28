@@ -1,4 +1,5 @@
-import { Component } from "react";
+import { Component, Suspense } from "react";
+import SuspenseImage from "./SuspenseImage";
 
 class Carousel extends Component {
   state = {
@@ -20,18 +21,34 @@ class Carousel extends Component {
 
     return (
       <div className="grid grid-cols-2">
-        <img src={images[active]} alt="car" className="max-h-60 rounded-md" />
+        <Suspense
+          fallback={
+            <div className="max-h-60 animate-pulse rounded-md bg-gray-400" />
+          }
+        >
+          <SuspenseImage
+            src={images[active]}
+            alt="car"
+            className="max-h-60 rounded-md"
+          />
+        </Suspense>
         <div className="grid max-h-60 grid-cols-4 gap-3 pl-4">
           {images.map((image, index) => (
             // eslint-disable-next-line
-            <img
+            <Suspense
               key={image}
-              src={image}
-              alt="car thumbnail"
-              className="size-20 cursor-pointer rounded-full"
-              data-index={index}
-              onClick={this.handleClickImage}
-            />
+              fallback={
+                <div className="size-20 animate-pulse cursor-pointer rounded-full bg-slate-400" />
+              }
+            >
+              <SuspenseImage
+                src={image}
+                alt="car thumbnail"
+                className="size-20 cursor-pointer rounded-full"
+                data-index={index}
+                onClick={this.handleClickImage}
+              />
+            </Suspense>
           ))}
         </div>
       </div>

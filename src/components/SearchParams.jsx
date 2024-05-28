@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import CarList from "./CarList";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import fetchModelList from "../apis/fetchModelList";
-import fetchCarList from "../apis/fetchCarList";
 import SelectedCar from "./SelectedCar";
+import Loader from "./Loader";
 
 const brands = ["Skoda", "Opel", "Volkswagen", "Toyota", "Fiat"];
 
@@ -19,12 +19,6 @@ const SearchParams = () => {
     queryKey: ["models", brand],
     queryFn: fetchModelList,
     enabled: !!brand,
-  });
-
-  const cars = useQuery({
-    queryKey: ["cars", searchParams],
-    queryFn: fetchCarList,
-    placeholderData: keepPreviousData,
   });
 
   return (
@@ -83,7 +77,9 @@ const SearchParams = () => {
         </select>
         <button className="btn mt-4">Search</button>
       </form>
-      <CarList cars={cars.data} isLoading={cars.isFetching} />
+      <Suspense fallback={<Loader />}>
+        <CarList searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 };
