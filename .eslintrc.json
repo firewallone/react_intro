@@ -1,26 +1,43 @@
 {
   "extends": [
-    "eslint:recommended", // zde se používají základní pravidla ESLintu (https://eslint.org/docs/rules/)
-    "plugin:import/errors", // tento plugin zajišťuje, že se budou kontrolovat chyby při importu
-    "plugin:react/recommended", // tento plugin zajišťuje, že se budou kontrolovat chyby v Reactu
-    "plugin: jsx-a11y/recommended", // tento plugin zajišťuje, že se budou kontrolovat chyby přístupnosti (a11y) v JSX
-    "prettier", // vzdycky posledni, aby se prettier aplikoval na vsechny pravidla
-    "plugin:react-hooks/recommended"
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:tailwindcss/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
   ],
-
-  "plugins": ["react", "jsx-a11y", "import"], // zde se definují použité pluginy
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "tailwindcss",
+    "@typescript-eslint"
+  ],
   "rules": {
-    "react/prop-types": "off", // toto pravidlo vypíná kontrolu prop-types
-    "react/react-in-jsx-scope": "off"// toto pravidlo vypíná kontrolu importu Reactu v souborech s JSX
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-empty-function": 0,
+    "tailwindcss/no-custom-classname": [
+      "warn",
+      {
+        "whitelist": ["form-field"]
+      }
+    ]
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2022, // zde se nastavuje verze ECMAScriptu, kterou chceme používat
-    "sourceType": "module", // toto nastavení říká, že používáme moduly
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2022,
+    "sourceType": "module",
     "ecmaFeatures": {
-      // zde se nastavují různé funkce ECMAScriptu, které chceme používat
       "jsx": true
     }
   },
+
   "env": {
     "browser": true,
     "node": true,
@@ -28,12 +45,14 @@
   },
   "settings": {
     "react": {
-      "version": "detect"// zde se nastavuje verze Reactu pro plugin react (pokud je nastaveno na "detect", tak se verze Reactu detekuje automaticky)
+      "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
-      // zde se nastavuje, jak mají být vyhledávány moduly při importu
-      "node": {
-        "extensions": [".js", ".jsx"]
+      "typescript": {
+        "alwaysTryTypes": true
       }
     }
   }
