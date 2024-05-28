@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-const loadImage = async (src) => {
+const loadImage = async (src = "") => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.src = src;
@@ -9,7 +9,7 @@ const loadImage = async (src) => {
   });
 };
 
-const useImage = (src) => {
+const useImage = (src?: string) => {
   return useSuspenseQuery({
     queryKey: ["image", src],
     queryFn: () => loadImage(src),

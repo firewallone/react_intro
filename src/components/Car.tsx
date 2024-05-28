@@ -1,9 +1,14 @@
-import { Suspense } from "react";
+import { FC, Suspense } from "react";
 import { Link } from "react-router-dom";
 import SuspenseImage from "./SuspenseImage";
+import { CarResponse } from "../types/APIResponseTypes";
 
-const Car = (props) => {
-  const { brand, model, location, id, image, price, color } = props;
+interface Props {
+  car: CarResponse;
+}
+
+const Car: FC<Props> = ({ car }) => {
+  const { brand, model, location, id, image, price, color } = car;
 
   return (
     <Link to={`/details/${id}`}>

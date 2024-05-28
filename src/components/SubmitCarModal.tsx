@@ -1,6 +1,14 @@
+import { FC } from "react";
 import Modal from "./Modal";
 
-const SubmitCarModal = ({ open, goNext, goBack, text }) => {
+interface Props {
+  open: boolean;
+  goNext: () => void;
+  goBack: () => void;
+  text: string;
+}
+
+const SubmitCarModal: FC<Props> = ({ open, goNext, goBack, text }) => {
   return (
     <>
       {open ? (

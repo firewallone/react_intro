@@ -8,12 +8,12 @@ import ErrorComponent from "../ErrorComponent";
 const CarDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading } = useSuspenseQuery({
-    queryKey: ["car", id],
+  const { data } = useSuspenseQuery({
+    queryKey: ["car", id as string],
     queryFn: fetchCar,
   });
 
-  return <CarDetailComponent car={data} isLoading={isLoading} />;
+  return <CarDetailComponent car={data} />;
 };
 
 function CarDetailsErrorBoundary() {

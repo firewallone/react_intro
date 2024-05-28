@@ -1,6 +1,7 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
 
-const ErrorComponent = () => {
+const ErrorComponent: FC = () => {
   return (
     <div className="rounded-md bg-red-50 p-4">
       <div className="flex">

@@ -1,7 +1,11 @@
-import { Component, Suspense } from "react";
+import { Component, MouseEvent, Suspense } from "react";
 import SuspenseImage from "./SuspenseImage";
 
-class Carousel extends Component {
+interface IProps {
+  images: string[];
+}
+
+class Carousel extends Component<IProps> {
   state = {
     active: 0,
   };
@@ -9,10 +13,12 @@ class Carousel extends Component {
     images: [""],
   };
 
-  handleClickImage = (e) => {
-    this.setState({
-      active: e.target.dataset.index,
-    });
+  handleClickImage = (e: MouseEvent<HTMLElement>) => {
+    if (e.target instanceof HTMLElement) {
+      this.setState({
+        active: e.target.dataset.index,
+      });
+    }
   };
 
   render() {

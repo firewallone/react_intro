@@ -21,20 +21,22 @@ const SearchParams = () => {
     enabled: !!brand,
   });
 
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const obj = {
+      location: formData.get("location")?.toString() ?? "",
+      brand: formData.get("brand")?.toString() ?? "",
+      model: formData.get("model")?.toString() ?? "",
+    };
+    setSearchParams(obj);
+  }
+
   return (
     <div>
       <SelectedCar />
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          const obj = {
-            location: formData.get("location") ?? "",
-            brand: formData.get("brand") ?? "",
-            model: formData.get("model") ?? "",
-          };
-          setSearchParams(obj);
-        }}
+        onSubmit={handleFormSubmit}
         className="flex flex-col rounded-md bg-lime-300 px-10 py-5 shadow-sm shadow-gray-400"
       >
         <label htmlFor="location">Location</label>
