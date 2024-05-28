@@ -3,13 +3,17 @@ import CarList from "./CarList";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import fetchModelList from "../apis/fetchModelList";
 import fetchCarList from "../apis/fetchCarList";
+import SelectedCar from "./SelectedCar";
 
 const brands = ["Skoda", "Opel", "Volkswagen", "Toyota", "Fiat"];
 
 const SearchParams = () => {
-  const [location, setLocation] = useState("");
   const [brand, setBrand] = useState("");
-  const [model, setModel] = useState("");
+  const [searchParams, setSearchParams] = useState({
+    location: "",
+    model: "",
+    brand: "",
+  });
 
   const models = useQuery({
     queryKey: ["models", brand],
@@ -18,35 +22,42 @@ const SearchParams = () => {
   });
 
   const cars = useQuery({
-    queryKey: ["cars", { location, model, brand }],
+    queryKey: ["cars", searchParams],
     queryFn: fetchCarList,
     placeholderData: keepPreviousData,
   });
 
   return (
     <div>
+      <SelectedCar />
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          const formData = new FormData(e.target);
+          const obj = {
+            location: formData.get("location") ?? "",
+            brand: formData.get("brand") ?? "",
+            model: formData.get("model") ?? "",
+          };
+          setSearchParams(obj);
         }}
         className="flex flex-col rounded-md bg-lime-300 px-10 py-5 shadow-sm shadow-gray-400"
       >
         <label htmlFor="location">Location</label>
         <input
           type="text"
+          name="location"
           id="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
           className="form-field"
         />
         <label htmlFor="brand">Brand</label>
         <select
           className="form-field"
+          name="brand"
           id="brand"
           value={brand}
           onChange={(e) => {
             setBrand(e.target.value);
-            setModel("");
           }}
         >
           <option value={""} />
@@ -59,10 +70,9 @@ const SearchParams = () => {
         <label htmlFor="model">Model</label>
         <select
           className="form-field"
+          name="model"
           id="model"
-          disabled={false}
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
+          disabled={!models?.data?.length}
         >
           <option value={""} />
           {models.data?.map((brand) => (

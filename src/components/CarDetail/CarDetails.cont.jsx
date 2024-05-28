@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import CarDetailComponent from "./CarDetail.comp";
 import fetchCar from "../../apis/fetchCar";
+import ErrorBoundary from "../ErrorBoundary";
+import ErrorComponent from "../ErrorComponent";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -13,4 +15,13 @@ const CarDetails = () => {
 
   return <CarDetailComponent car={data} isLoading={isLoading} />;
 };
-export default CarDetails;
+
+function CarDetailsErrorBoundary() {
+  return (
+    <ErrorBoundary fallback={<ErrorComponent />}>
+      <CarDetails />
+    </ErrorBoundary>
+  );
+}
+
+export default CarDetailsErrorBoundary;
