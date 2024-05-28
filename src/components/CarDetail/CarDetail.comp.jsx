@@ -11,7 +11,7 @@ const DetailParam = (props) => {
   );
 };
 
-const CarDetailsComponent = (props) => {
+const CarDetailComponent = (props) => {
   if (props.isLoading) {
     return (
       <div className="animate-pulse">
@@ -41,4 +41,4 @@ const CarDetailsComponent = (props) => {
     </div>
   );
 };
-export default CarDetailsComponent;
+export default CarDetailComponent;

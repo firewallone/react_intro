@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Car from "./Car";
-import useModelList from "../hooks/useModelList";
-import useCarList from "../hooks/useCarList.jsx";
+import CarList from "./CarList";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import fetchModelList from "../apis/fetchModelList";
+import fetchCarList from "../apis/fetchCarList";
 
 const brands = ["Skoda", "Opel", "Volkswagen", "Toyota", "Fiat"];
 
@@ -9,12 +10,17 @@ const SearchParams = () => {
   const [location, setLocation] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
-  const [models] = useModelList(brand);
 
-  const { cars, requestCars, isLoading } = useCarList({
-    location,
-    brand,
-    model,
+  const models = useQuery({
+    queryKey: ["models", brand],
+    queryFn: fetchModelList,
+    enabled: !!brand,
+  });
+
+  const cars = useQuery({
+    queryKey: ["cars", { location, model, brand }],
+    queryFn: fetchCarList,
+    placeholderData: keepPreviousData,
   });
 
   return (
@@ -22,9 +28,8 @@ const SearchParams = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          requestCars();
         }}
-        className="flex flex-col rounded-md bg-blue-600 px-10 py-5 shadow-sm shadow-gray-400"
+        className="flex flex-col rounded-md bg-lime-300 px-10 py-5 shadow-sm shadow-gray-400"
       >
         <label htmlFor="location">Location</label>
         <input
@@ -55,12 +60,12 @@ const SearchParams = () => {
         <select
           className="form-field"
           id="model"
-          disabled={!models.length}
+          disabled={false}
           value={model}
           onChange={(e) => setModel(e.target.value)}
         >
           <option value={""} />
-          {models.map((brand) => (
+          {models.data?.map((brand) => (
             <option key={brand} value={brand}>
               {brand}
             </option>
@@ -68,19 +73,7 @@ const SearchParams = () => {
         </select>
         <button className="btn mt-4">Search</button>
       </form>
-      <div className={isLoading ? "opacity-45" : ""}>
-        {cars?.map((car) => (
-          <Car
-            key={car.id}
-            brand={car.brand}
-            model={car.model}
-            price={car.price}
-            color={car.color}
-            image={car.image}
-            location={car.location}
-          />
-        ))}
-      </div>
+      <CarList cars={cars.data} isLoading={cars.isFetching} />
     </div>
   );
 };

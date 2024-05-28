@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import SearchParams from "./components/SearchParams";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import CarDetailsContainer from "./components/CarDetail/CarDetails.cont";
+import CarDetails from "./components/CarDetail/CarDetails.cont";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +24,7 @@ const App = () => {
             </h2>
             <Routes>
               <Route path="/" element={<SearchParams />} />
-              <Route path="/details/:id" element={<CarDetailsContainer />} />
+              <Route path="/details/:id" element={<CarDetails />} />
             </Routes>
           </div>
         </div>
